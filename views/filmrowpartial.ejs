@@ -1,0 +1,14 @@
+
+     <% for(let index = 0; index < films.length; index++){ let film = films[index]; %>
+        <tr>
+            <td><%= (index+1) %></td>
+            <td><%= film.title %></td>
+            <td><%= film.description %></td>
+            <td><%= categories[film.film_id] %></td>
+            <td><%= film.release_year %></td>
+            <td><%= film.name %></td>
+            <td><%= film.length %></td>
+            <td><%= film.rental_rate %></td>
+            <td><%= actors[film.film_id] %></td>
+        </tr>
+    <% if(index>48) break;}%>

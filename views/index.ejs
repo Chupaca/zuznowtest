@@ -1,0 +1,234 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <title>Search form page</title>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+    <link href="https://fonts.googleapis.com/css?family=Montserrat" rel="stylesheet" type="text/css">
+    <link href="https://fonts.googleapis.com/css?family=Lato" rel="stylesheet" type="text/css">
+    <style>
+        body {
+            font: 400 15px Lato, sans-serif;
+            line-height: 1.8;
+            color: #818181;
+        }
+
+        h2 {
+            font-size: 24px;
+            text-transform: uppercase;
+            color: #303030;
+            font-weight: 600;
+            margin-bottom: 30px;
+        }
+
+        h4 {
+            font-size: 19px;
+            line-height: 1.375em;
+            color: #303030;
+            font-weight: 400;
+            margin-bottom: 30px;
+        }
+
+        .jumbotron {
+            background-color: #f4511e;
+            color: #fff;
+            padding: 100px 25px;
+            font-family: Montserrat, sans-serif;
+        }
+
+        .container-fluid {
+            padding: 60px 50px;
+        }
+
+        .bg-grey {
+            background-color: #f6f6f6;
+        }
+
+        @media screen and (max-width: 768px) {
+            .col-sm-4 {
+                text-align: center;
+                margin: 25px 0;
+            }
+            .btn-lg {
+                width: 100%;
+                margin-bottom: 35px;
+            }
+        }
+
+        @media screen and (max-width: 480px) {
+            .logo {
+                font-size: 150px;
+            }
+        }
+    </style>
+</head>
+
+<body id="myPage" data-spy="scroll" data-target=".navbar" data-offset="60">
+
+    <div class="jumbotron text-center" style="padding:2px 25px;">
+        <h1>Video Store</h1>
+        <p></p>
+        <div class="container">
+            <form class="form-inline" action="/action_page.php">
+                <div class="form-group">
+
+                    <div class="dropdown" style="display:inline-flex;">
+                        <button class="btn btn-primary dropdown-toggle" type="button" data-toggle="dropdown">Categories
+                            <span class="caret"></span>
+                        </button>
+                        <ul class="dropdown-menu dropdown_choices">
+                            <% categories.forEach(categorie => { %>
+                                <li>
+                                    <a href="#" class="small" data-type="category" data-value="<%= categorie.name %>" data-id="<%= categorie.category_id%>"
+                                        tabIndex="-1">
+                                        <input type="checkbox" />&nbsp;
+                                        <%= categorie.name %>
+                                    </a>
+                                </li>
+                                <% }) %>
+                        </ul>
+                    </div>
+
+                    <div class="dropdown" style="display:inline-flex;">
+                        <button class="btn btn-primary dropdown-toggle" type="button" data-toggle="dropdown">Languages
+                            <span class="caret"></span>
+                        </button>
+                        <ul class="dropdown-menu dropdown_choices">
+                            <% languages.forEach(language => { %>
+                                <li>
+                                    <a href="#" class="small" data-type="language" data-value="<%= language.name %>" data-id="<%= language.language_id%>"
+                                        tabIndex="-1">
+                                        <input type="checkbox" />&nbsp;
+                                        <%= language.name %>
+                                    </a>
+                                </li>
+                                <% }) %>
+
+                        </ul>
+                    </div>
+
+                    <div class="dropdown" style="display:inline-flex;">
+                        <button class="btn btn-primary dropdown-toggle" type="button" data-toggle="dropdown">Actors
+                            <span class="caret"></span>
+                        </button>
+                        <ul class="dropdown-menu dropdown_choices" style="max-height: 300px;overflow-y: auto;">
+                            <% actors.forEach(actor => { %>
+                                <li>
+                                    <a href="#" class="small" data-type="actor" data-value="<%= (actor.first_name + " " + actor.last_name)%>" data-id="<%= actor.actor_id %>"
+                                        tabIndex="-1">
+                                        <input type="checkbox" />&nbsp;
+                                        <%= (actor.first_name + " " + actor.last_name)%>
+                                    </a>
+                                </li>
+                                <% }) %>
+
+                        </ul>
+                    </div>
+                    <br>
+                    <h3>OR</h3>
+                    <br>
+
+                    <div class="dropdown handler_search_filter" style="display:inline-flex;">
+                        <button class="btn btn-primary dropdown-toggle" type="button" data-toggle="dropdown">search by
+                            <span class="caret"></span>
+                        </button>
+                        <ul class="dropdown-menu handler_search_filter">
+                            <li>
+                                <a href="#" class="small" tabIndex="-1">
+                                    <input type="radio" name="search_type" data-value="title" checked />&nbsp;Title</a>
+                            </li>
+                            <li>
+                                <a href="#" class="small"  tabIndex="-1">
+                                    <input type="radio" name="search_type" data-value="description" />&nbsp;Description</a>
+                            </li>
+                            <li>
+                                <a href="#" class="small"  tabIndex="-1">
+                                    <input type="radio" name="search_type" data-value="category" />&nbsp;Category</a>
+                            </li>
+                            <li>
+                                <a href="#" class="small" tabIndex="-1">
+                                    <input type="radio" name="search_type" data-value="actor" />&nbsp;Actor</a>
+                            </li>
+                            <li>
+                                <a href="#" class="small"  tabIndex="-1">
+                                    <input type="radio" name="search_type" data-value="language" />&nbsp;Language</a>
+                            </li>
+
+                        </ul>
+                    </div>
+                    <label></label>
+                    <input type="text" class="form-control" id="free_text" placeholder="Search" name="free_text">
+                    <button type="button" class="btn btn-default" id="search_btn">
+                        <span class="glyphicon glyphicon-search"></span>&nbsp;search
+                    </button>
+                    <div id="searched_text_warp" style="border: 1px solid;
+                    position: absolute;
+                    margin-left: 6%;
+                    padding: 1%;
+                    text-align: left;
+                    background: antiquewhite;opacity:1;
+                    color: #000;display:none;"></div>
+                </div>
+            </form>
+             <ul id="search_row" class="list-inline" style="margin-top:15px;">
+            </ul>
+            <h4>search results: <span id="search_results"></span></h4>
+        </div>
+    </div>
+
+    <div id="about" class="container-fluid">
+        <div class="row">
+            <div class="col-sm-8">
+            <table class="table table-bordered">
+            <thead>
+              <tr>
+                <th>N'</th>
+                <th>Title</th>
+                <th>Desc</th>
+                <th>Category Name</th>
+                <th>Release Year</th>
+                <th>Language Name</th>
+                <th>Length</th>
+                <th>Rating</th>
+                <th>Actors</th>
+              </tr>
+            </thead>
+            <tbody id="row_warp">
+            </tbody>
+            </table>
+            </div>
+        </div>
+    </div>
+    <div id="about" class="container-fluid" style="right: 10px;
+    position: absolute;
+    top: 362px;">
+        <div class="row">
+            <div class="col-sm-2">
+            <table class="table table-bordered">
+            <thead>
+              <tr>
+                <th>Date</th>
+                <th>Type</th>
+                <th>Value</th>
+                <th>Count</th>
+              </tr>
+            </thead>
+            <tbody id="row_warp_logs">
+            </tbody>
+            </table>
+            </div>
+        </div>
+    </div>
+    <div  class="container-fluid" id="searched_page_warp" style=" margin-left:50px;height:500px;overflow-y:auto;"></div>
+
+    <footer class="container-fluid text-center">
+    </footer>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+    <script type='text/javascript' src='/javascript/formatting.js'></script>
+    <script type='text/javascript' src='/javascript/general.js'></script>
+</body>
+
+</html>
