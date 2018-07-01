@@ -4,9 +4,9 @@ const promise = require("bluebird");
 var mysql = require('mysql');
 
 var connection = mysql.createConnection({
-    host: "/dev-test.conversation.one",
-    user: "test",
-    password: "pass",
+    host: "/node-js-firs-app:europe-west4:simplesqldb-test",
+    user: "root",
+    password: "root",
     database: "sakila"
 });
 
