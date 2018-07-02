@@ -10,7 +10,7 @@ var serveStatic = require('serve-static')
 var engine = require('ejs-mate');
 var cookieParser = require('cookie-parser');
 var favicon = require('serve-favicon');
-//var methodOverride = require('method-override');
+var methodOverride = require('method-override');
 var bodyParser = require('body-parser');
 var mysql = require('mysql');
 
@@ -45,7 +45,7 @@ app.use(bodyParser.json({ limit: '5mb' }));
 app.use(bodyParser.urlencoded({ extended: true, limit: '5mb' }));
 
 
-//app.use(methodOverride());
+app.use(methodOverride());
 app.use(cookieParser());
 
 app.use(favicon(path.join(__dirname, 'public', 'images', 'favicon.ico')));

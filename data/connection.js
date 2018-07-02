@@ -2,24 +2,42 @@
 
 const promise = require("bluebird");
 var mysql = require('mysql');
+const Knex = require('knex');
 
-var connection = mysql.createConnection({
-    host: "/node-js-firs-app:europe-west4:simplesqldb-test",
-    user: "root",
-    password: "root",
-    database: "sakila"
-});
+function connect() {
+    var config = {
+        user: process.env.SQL_USER,
+        password: process.env.SQL_PASSWORD,
+        database: process.env.SQL_DATABASE
+    };
+
+    if (process.env.INSTANCE_CONNECTION_NAME && process.env.NODE_ENV === 'production') {
+        config.socketPath = `/cloudsql/${process.env.INSTANCE_CONNECTION_NAME}`;
+    }
+    if (process.env.NODE_ENV === 'development') {
+        config = {
+            host: 'localhost',
+            user: 'root',
+            password: '',
+            database: 'sakila'
+        };
+    }
+
+    const knex = Knex({
+        client: 'mysql',
+        connection: config
+    });
+    return knex;
+}
+
+const knex = connect();
 
 const QueryRequest = sql => {
     return new promise((resolve, reject) => {
-        connection.query(sql, (err, rows) => {
-            if (err) {
-                return reject(err);
-            } else {
-                return resolve(rows);
-            }
+        knex.raw(sql).then((rows) => {
+            resolve(rows[0]);
         });
-    });
+    })
 }
 
 module.exports = {
